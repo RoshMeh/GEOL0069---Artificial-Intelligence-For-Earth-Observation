@@ -52,48 +52,84 @@ pip install netCDF4
 <!-- Step 1: Get the Metadata for satellites (Sentinel-2 and Sentinel-3 OLCI in this case) -->
 ### Step 1:Unsupervised Learning
 
-This section will use unsupervised learning to perform a classification task for Sea ice and lead in the real-world (EO) scenarios. This is because unsupervised learning techniques are particularly good at identifying patterns and classifying data when categories are not explicitly labeled. By exploring these techniques, we will gain insight into how to identify structures and relationships in datasets.
+Unsupervised learning is a powerful branch of machine learning that discovers hidden patterns in data without predefined labels. This technique is particularly useful for Earth Observation (EO) applications, where labeled datasets can be scarce.
+
+
+In this section, we apply unsupervised learning to classify sea ice and lead based on satellite data. By leveraging these techniques, we aim to:
+
+* Identify structures and relationships in environmental datasets.
+* Automatically classify different surface features.
+* Gain insights into how clustering can assist in remote sensing analysis.
 
 <!-- Introduction to Unsupervised Learning Methods [Bishop and Nasrabadi, 2006] -->
-### Introduction to Unsupervised Learning Methods [Bishop and Nasrabadi, 2006]
+### Introduction to Unsupervised Learning Methods
 
 <!-- Introduction to K-means Clustering -->
-#### Introduction to K-means Clustering
+#### K-Means Clustering for Sea Ice and Lead
 
-K-means clustering is an unsupervised learning algorithm used to divide a data set into a set of k groups (or clusters), where k represents the number of groups pre-specified by the analyst. It classifies data points based on the similarity of the data {cite}macqueen1967some features. The basic idea is to define k centers of mass, one for each cluster, and then assign each data point to the nearest center of mass while keeping the center of mass as small as possible.
+What is K-Means?
+
+K-Means is an unsupervised learning algorithm that groups data into k clusters based on similarity. The core idea is to:
+
+* Define k cluster centers.
+* Assign each data point to the nearest center.
+* Recalculate cluster centers iteratively until convergence.
+
+Why Use K-Means for Clustering?
+
+
+K-Means is widely used in remote sensing and environmental classification because:
+
+It is efficient and can scale to large datasets.
+It does not require labeled data, making it ideal for exploratory analysis.
+It effectively segments complex datasets like satellite imagery.
+
 
 <!-- Why K-means for Clustering? -->
-#### Why K-means for Clustering?
-K-means clustering is effective when the structure of the data is not known beforehand, and it is simplicity adn scalability. K-means doesn't require any prior knowledge of data distribution or structure, making it ideal for exploratory data analysis. And the algorithm is easy to implement and can be extended to large datasets relatively easily.
+
+#### Key Components of K-Means
+The K-Means algorithm consists of four fundamental steps:
+
+* Choosing K: Define the number of clusters (k) based on the dataset.
+* Centroid Initialization: Select initial cluster centers to begin grouping.
+* Assignment Step: Assign each data point to the closest centroid.
+* Update Step: Recalculate centroids based on assigned points.
+
+
+These steps are repeated until cluster centers stabilize, ensuring an optimal grouping of data.
 
 <!-- Key Components of K-means -->
-#### Key Components of K-means
-There are four key components of K-means: choosing K, centroids initialisation, assignment step and update step. Specify the number of clusters (K) before applying the algorithm, initialise the centroid position to avoid affecting the final result, assign each data point to the nearest centroid based on the square of the Euclidean distance and finally recalculate the centroid as the center of all data points assigned to the respective clusters.
+#### The Iterative Process of K-Means
+
+
+K-Means follows an iterative refinement process:
+
+* Data points are re-assigned to clusters at each step.
+* The centroids shift dynamically until minimal intra-cluster changes occur.
+* The algorithm converges when data points no longer switch clusters.
+
+
+This ensures a well-defined clustering of features, such as differentiating between sea ice and open water leads.
 
 <!-- The Iterative Process of K-means -->
-#### The Iterative Process of K-means
-The assignment and update steps are repeated iteratively until the center of mass no longer moves significantly, which means that intra-cluster changes are minimised. This iterative process ensures that the algorithm converges to a result that may be locally optimal.
+#### Advantages of K-Means in Remote Sensing
+* Computationally efficient: Works well with large satellite datasets.
+* Scalable and interpretable: Easy to understand and visualize.
+* Effective for environmental data: Can distinguish between natural patterns in Earth Observation imagery.
 
-<!-- Advantages of K-means -->
-#### Advantages of K-means
-K-means is computationally efficient and ease of interpretation.
+
+By applying K-Means clustering, we can extract meaningful insights from satellite-derived features, aiding in automatic classification of environmental elements like sea ice and water leads.
 
 <!-- Basic Code Implementation -->
-#### Basic Code Implementation
-This section provides a K-means clustering implementation. Connect to colab and Google drive as before, then pip the rasterio and netCDF4 to read and process the data.
+#### Code
 
-```python
-from google.colab import drive
-drive.mount('/content/drive')
-```
-```python
-pip install rasterio
-```
-```python
-pip install netCDF4
-```
+Using scikit-learn, we generate 100 random data points and apply the K-Means clustering algorithm. The model is initialized and assigns each data point to one of the clusters. To visualize the results, a scatter plot is created, where:
 
-Using sklearn, created 100 data points randomly, the K-means model is initialised, and assigned each data point. Visualise the data as a scatter plot, with color-coded points representing clusters, and the calculated centroid marked with a black dot. This illustrates how K-means groups data for pattern recognition and segmentation.
+* Each point is color-coded based on its assigned cluster.
+* The cluster centroids are highlighted with a black dot.
+
+
+This visualization effectively demonstrates how K-Means identifies patterns and segments data into distinct groups. 
 
 ```python
 # Python code for K-means clustering
